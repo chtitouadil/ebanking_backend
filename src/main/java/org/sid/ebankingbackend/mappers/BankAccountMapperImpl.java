@@ -1,10 +1,13 @@
 package org.sid.ebankingbackend.mappers;
 
+import org.sid.ebankingbackend.dtos.AccountBankResponseDTO;
 import org.sid.ebankingbackend.dtos.AccountOperationDTO;
+import org.sid.ebankingbackend.dtos.BankAccountDTO;
 import org.sid.ebankingbackend.dtos.CurrentBankAccountDTO;
 import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.dtos.SavingBankAccountDTO;
 import org.sid.ebankingbackend.entities.AccountOperation;
+import org.sid.ebankingbackend.entities.BankAccount;
 import org.sid.ebankingbackend.entities.CurrentAccount;
 import org.sid.ebankingbackend.entities.Customer;
 import org.sid.ebankingbackend.entities.SavingAccount;
@@ -52,6 +55,14 @@ public class BankAccountMapperImpl {
         currentAccount.setCustomer(fromCustomerDTO(currentBankAccountDTO.getCustomerDTO()));
         return currentAccount;
     }
+    
+    public AccountBankResponseDTO fromBankAccount(BankAccount bankAcount) {
+    	AccountBankResponseDTO accountBankResponseDTO = new AccountBankResponseDTO();
+    	BeanUtils.copyProperties(bankAcount,accountBankResponseDTO);
+    	accountBankResponseDTO.setCustomer(fromCustomer(bankAcount.getCustomer()));
+    	return accountBankResponseDTO;
+    }
+    
 
     public AccountOperationDTO fromAccountOperation(AccountOperation accountOperation){
         AccountOperationDTO accountOperationDTO=new AccountOperationDTO();

@@ -1,8 +1,11 @@
 package org.sid.ebankingbackend.web;
 
 import org.sid.ebankingbackend.dtos.*;
+import org.sid.ebankingbackend.entities.*;
 import org.sid.ebankingbackend.exceptions.BalanceNotSufficientException;
 import org.sid.ebankingbackend.exceptions.BankAccountNotFoundException;
+import org.sid.ebankingbackend.exceptions.CustomerNotFoundException;
+import org.sid.ebankingbackend.mappers.BankAccountMapperImpl;
 import org.sid.ebankingbackend.services.BankAccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +15,22 @@ import java.util.List;
 @CrossOrigin("*")
 public class BankAccountRestAPI {
     private BankAccountService bankAccountService;
+    private BankAccountMapperImpl dtoMapper;
 
     public BankAccountRestAPI(BankAccountService bankAccountService) {
         this.bankAccountService = bankAccountService;
+    }
+ /*   @PostMapping("/account")
+    public AccountBankResponseDTO saveBankAccount(@RequestBody AccountBankRequestDTO accountBankRequestDTO) throws CustomerNotFoundException{
+    	
+    	if(accountBankRequestDTO.getType()=="CurrentBankAcecount")
+    	return bankAccountService.saveCurrentBankAccount(accountBankRequestDTO.getBalance(),accountBankRequestDTO.getRate(),accountBankRequestDTO.getCustomer().getIdCustomer());
+    	 else
+        return bankAccountService.saveSavingBankAccount(accountBankRequestDTO.getBalance(),accountBankRequestDTO.getRate(),accountBankRequestDTO.getCustomer().getIdCustomer());
+    }*/
+    @GetMapping("/accounts/search")
+    public List<BankAccountDTO> searchAccount(@RequestParam(name = "id") Long id){
+        return bankAccountService.bankAccounts(id);
     }
 
     @GetMapping("/accounts/{accountId}")
